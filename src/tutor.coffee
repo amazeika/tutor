@@ -16,12 +16,13 @@ tutor.card = (details, callback) ->
     when 'string' then details = name: details
 
   card = languages = legality = null
-  get = (fn) -> (err, data) ->
-    fn data
+  get = (success) -> (err, data) ->
     if err
       callback err
       callback = ->
-    else if card? and languages? and legality?
+      return
+    success data
+    if card? and languages? and legality?
       card.languages = languages
       card.legality = legality
       callback null, card

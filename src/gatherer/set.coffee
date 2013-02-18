@@ -12,11 +12,7 @@ module.exports = ({name, page}, callback) ->
     return
   url = 'http://gatherer.wizards.com/Pages/Search/Default.aspx'
   url += "?set=[%22#{encodeURIComponent name}%22]&page=#{page - 1}"
-  request {url}, (err, res, body) ->
-    return callback err if err?
-    return callback new Error 'unexpected status code' unless res.statusCode is 200
-    try set = extract body catch err then return callback err
-    callback null, set
+  request {url}, request.$$ callback, extract
   return
 
 extract = (html) ->

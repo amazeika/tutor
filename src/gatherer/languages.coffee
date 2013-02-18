@@ -25,9 +25,7 @@ module.exports = (details, callback) ->
 
 fetch = (page, details, callback) ->
   url = gatherer.card.url 'Languages.aspx', details, {page}
-  request {url, followRedirect: no}, (err, res, body) ->
-    err ?= new Error 'unexpected status code' unless res.statusCode is 200
-    if err then callback err else callback null, body
+  request {url, followRedirect: no}, request.$$ callback, (html) -> html
 
 extract = (html) ->
   $ = load html

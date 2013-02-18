@@ -14,11 +14,8 @@ gatherer[name] = require "./gatherer/#{name}" for name in [
 ]
 
 collect_options = (label) -> (callback) ->
-  request url: 'http://gatherer.wizards.com/Pages/Default.aspx', (err, res, body) ->
-    return callback err if err?
-    return callback new Error 'unexpected status code' unless res.statusCode is 200
-    try formats = extract body, label catch err then return callback err
-    callback null, formats
+  request url: 'http://gatherer.wizards.com/Pages/Default.aspx',
+    request.$$ callback, (html) -> extract html, label
   return
 
 extract = (html, label) ->
